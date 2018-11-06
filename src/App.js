@@ -134,7 +134,7 @@ class App extends Component {
     this.setState({ numberToGuess: Math.floor(Math.random() * 100) });
     this.setState({ guess: 0 });
     this.setState({ win: false });
-    this.setState({ text: false });
+    this.setState({ text: "" });
   }
   render() {
     return (
