@@ -20,15 +20,19 @@ class App extends Component {
     this.setState({ guess: +event.target.value });
   }
   makeGuess() {
-    this.setState({ attempt: this.state.attempt + 1 });
-    if (this.state.guess === this.state.numberToGuess) {
-      this.setState({ text: "You Win", win: true });
-    } else if (this.state.attempt === 4 && !this.state.win) {
-      this.setState({ text: "GAME OVER !!!" });
-    } else if (Math.abs(this.state.guess - this.state.numberToGuess) > 10) {
-      this.setState({ text: "Your guess is too far" });
+    if (!this.state.guess) {
+      this.setState({ text: "Invalid Guess..Try Numbers Between 1-100" });
     } else {
-      this.setState({ text: "Your guess is too close" });
+      this.setState({ attempt: this.state.attempt + 1 });
+      if (this.state.guess === this.state.numberToGuess) {
+        this.setState({ text: "You Win", win: true });
+      } else if (this.state.attempt === 4 && !this.state.win) {
+        this.setState({ text: "GAME OVER !!!" });
+      } else if (Math.abs(this.state.guess - this.state.numberToGuess) > 10) {
+        this.setState({ text: "Your guess is too far" });
+      } else {
+        this.setState({ text: "Your guess is too close" });
+      }
     }
   }
   componentDidMount() {
@@ -61,12 +65,16 @@ class App extends Component {
         </div>
       );
     } else {
-      const intro = !this.state.attempt
-        ? "Try to Guess the number between 1-100 \n"
-        : "";
-      const warning = !this.state.attempt
-        ? "Becareful with your guesses You have only 5 attempts"
-        : "";
+      const intro =
+        !this.state.attempt &&
+        this.state.text !== "Invalid Guess..Try Numbers Between 1-100"
+          ? "Try to Guess the number between 1-100 \n"
+          : "";
+      const warning =
+        !this.state.attempt &&
+        this.state.text !== "Invalid Guess..Try Numbers Between 1-100"
+          ? "Becareful with your guesses You have only 5 attempts"
+          : "";
       const remaining = this.state.attempt
         ? `${5 - this.state.attempt} attempts remaining`
         : "";
